@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CulturalEvents.App.Infrastructure.Configuration;
 
-public class CityConfiguration : IEntityTypeConfiguration<CityEntity>
+public class CityConfiguration : IEntityTypeConfiguration<CityAuditableEntity>
 {
-    public void Configure(EntityTypeBuilder<CityEntity> builder)
+    public void Configure(EntityTypeBuilder<CityAuditableEntity> builder)
     {
         builder.HasKey(city => city.Id);
         builder.Property(city => city.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.HasOne<RegionEntity>().WithMany().HasForeignKey(city => city.RegionId).IsRequired();
+        builder.HasOne<RegionAuditableEntity>().WithMany().HasForeignKey(city => city.RegionId).IsRequired();
         builder.Property(city => city.Name).IsRequired();
     }
 }

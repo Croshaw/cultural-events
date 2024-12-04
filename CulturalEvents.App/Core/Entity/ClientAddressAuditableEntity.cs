@@ -1,6 +1,6 @@
 namespace CulturalEvents.App.Core.Entity;
 
-public class ClientAddressEntity : BaseEntityAuditableEntity
+public class ClientAddressAuditableEntity : BaseAuditableEntity
 {
     public required int ClientId { get; set; }
     public required int AddressId { get; set; }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CulturalEvents.App.Infrastructure.Repository;
 
-public class BaseRepository<T>(DbSet<T> set) : IBaseEntityRepository<T> where T : BaseEntityAuditableEntity
+public class BaseRepository<T>(DbSet<T> set) : IBaseEntityRepository<T> where T : BaseAuditableEntity
 {
     public T[] Get(Expression<Func<T, bool>> predicate)
     {

@@ -6,10 +6,10 @@ namespace CulturalEvents.App.Infrastructure;
 
 public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public DbSet<RegionEntity> Regions { get; set; }
-    public DbSet<CityEntity> Cities { get; set; }
-    public DbSet<StreetEntity> Streets { get; set; }
-    public DbSet<AddressEntity> Addresses { get; set; }
+    public DbSet<RegionAuditableEntity> Regions { get; set; }
+    public DbSet<CityAuditableEntity> Cities { get; set; }
+    public DbSet<StreetAuditableEntity> Streets { get; set; }
+    public DbSet<AddressAuditableEntity> Addresses { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new RegionConfiguration());

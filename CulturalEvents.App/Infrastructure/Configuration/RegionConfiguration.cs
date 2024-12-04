@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CulturalEvents.App.Infrastructure.Configuration;
 
-public class RegionConfiguration : IEntityTypeConfiguration<RegionEntity>
+public class RegionConfiguration : IEntityTypeConfiguration<RegionAuditableEntity>
 {
-    public void Configure(EntityTypeBuilder<RegionEntity> builder)
+    public void Configure(EntityTypeBuilder<RegionAuditableEntity> builder)
     {
         builder.HasKey(region => region.Id);
         builder.Property(region => region.Id).IsRequired().ValueGeneratedOnAdd();

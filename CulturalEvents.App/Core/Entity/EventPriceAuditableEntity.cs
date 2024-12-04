@@ -1,6 +1,6 @@
 namespace CulturalEvents.App.Core.Entity;
 
-public class EventPriceEntity : BaseEntityAuditableEntity
+public class EventPriceAuditableEntity : BaseAuditableEntity
 {
     public required int EventId { get; set; }
     public int? From { get; set; }

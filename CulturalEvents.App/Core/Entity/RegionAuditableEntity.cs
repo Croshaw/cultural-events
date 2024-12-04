@@ -1,6 +1,6 @@
 namespace CulturalEvents.App.Core.Entity;
 
-public class RegionEntity : BaseEntityAuditableEntity
+public class RegionAuditableEntity : BaseAuditableEntity
 {
     public required string Name { get; set; }
 }

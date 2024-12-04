@@ -1,6 +1,6 @@
 namespace CulturalEvents.App.Core.Entity;
 
-public class BaseEntityAuditableEntity : BaseEntity
+public class BaseAuditableEntity : BaseEntity
 {
     public required DateTimeOffset Created { get; set; }
 

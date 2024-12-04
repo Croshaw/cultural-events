@@ -1,6 +1,6 @@
 namespace CulturalEvents.App.Core.Entity;
 
-public class AddressEntity : BaseEntityAuditableEntity
+public class AddressAuditableEntity : BaseAuditableEntity
 {
     public required int StreetId { get; set; }
     public required int House { get; set; }
