@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulturalEvents.Core", "CulturalEvents.Core\CulturalEvents.Core.csproj", "{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulturalEvents.App", "CulturalEvents.App\CulturalEvents.App.csproj", "{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
