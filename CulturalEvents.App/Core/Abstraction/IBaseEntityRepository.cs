@@ -9,11 +9,11 @@ public interface IBaseEntityRepository<T> where T : BaseEntity
     Task<T[]> GetAsync(Expression<Func<T, bool>> predicate);
     T[] Get();
     Task<T[]> GetAsync();
-    T? Get(int id);
-    ValueTask<T?> GetAsync(int id);
-    bool Add(T value);
-    ValueTask<bool> AddAsync(T value);
-    bool Update(T value);
-    bool Delete(int id);
-    ValueTask<bool> DeleteAsync(int id);
+    Option<T> Get(int id);
+    ValueTask<Option<T>> GetAsync(int id);
+    Result<T> Add(T value);
+    ValueTask<Result<T>> AddAsync(T value);
+    Result<T> Update(T value);
+    Result<T> Delete(int id);
+    ValueTask<Result<T>> DeleteAsync(int id);
 }

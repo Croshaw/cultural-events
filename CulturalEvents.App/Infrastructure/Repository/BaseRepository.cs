@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using CulturalEvents.App.Core;
 using CulturalEvents.App.Core.Abstraction;
 using CulturalEvents.App.Core.Entity;
 using Microsoft.EntityFrameworkCore;
@@ -27,38 +28,40 @@ public class BaseRepository<T>(DbSet<T> set) : IBaseEntityRepository<T> where T 
         return set.ToArrayAsync();
     }
 
-    public T? Get(int id)
+    public Option<T> Get(int id)
     {
         return set.Find(id);
     }
 
-    public ValueTask<T?> GetAsync(int id)
+    public async ValueTask<Option<T>> GetAsync(int id)
     {
-        return set.FindAsync(id);
+        return await set.FindAsync(id);
     }
 
-    public bool Add(T value)
+    public Result<T> Add(T value)
     {
-        return set.Add(value).State == EntityState.Added;
+        return set.Add(value).Entity;
     }
 
-    public async ValueTask<bool> AddAsync(T value)
+    public async ValueTask<Result<T>> AddAsync(T value)
     {
-        return (await set.AddAsync(value)).State == EntityState.Added;
+        return (await set.AddAsync(value)).Entity;
     }
 
-    public bool Update(T value)
+    public Result<T> Update(T value)
     {
-        return set.Update(value).State == EntityState.Modified;
+        return set.Update(value).Entity;
     }
 
-    public bool Delete(int id)
+    public Result<T> Delete(int id)
     {
-        return set.Remove(Get(id) ?? throw new InvalidOperationException()).State == EntityState.Deleted;
+        var entity = Get(id);
+        return entity.IsSome ? set.Remove(entity).Entity : new InvalidOperationException();
     }
 
-    public async ValueTask<bool> DeleteAsync(int id)
+    public async ValueTask<Result<T>> DeleteAsync(int id)
     {
-        return set.Remove(await GetAsync(id) ?? throw new InvalidOperationException()).State == EntityState.Deleted;
+        var entity = await GetAsync(id);
+        return entity.IsSome ? set.Remove(entity).Entity : new InvalidOperationException();
     }
 }
