@@ -10,7 +10,9 @@ public class StreetConfiguration : IEntityTypeConfiguration<StreetAuditableEntit
     {
         builder.HasKey(street => street.Id);
         builder.Property(street => street.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.HasOne<CityAuditableEntity>().WithMany().HasForeignKey(street => street.CityId).IsRequired();
         builder.Property(street => street.Name).IsRequired();
+        builder.HasOne(street => street.City).WithMany().HasForeignKey(street => street.CityId).IsRequired();
+        builder.Navigation(street => street.City).AutoInclude();
+
     }
 }

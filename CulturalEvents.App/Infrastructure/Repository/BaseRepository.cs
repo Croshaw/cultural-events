@@ -6,62 +6,121 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CulturalEvents.App.Infrastructure.Repository;
 
-public class BaseRepository<T>(DbSet<T> set) : IBaseEntityRepository<T> where T : BaseAuditableEntity
+public class BaseRepository<T> : IBaseEntityRepository<T> where T : BaseAuditableEntity
 {
+    private readonly DbContext _context;
+    private readonly DbSet<T> _set;
+    public BaseRepository(DbContext context)
+    {
+        _context = context;
+        _set = context.Set<T>();
+    }
     public T[] Get(Expression<Func<T, bool>> predicate)
     {
-        return set.Where(predicate).ToArray();
+        return _set.AsNoTracking().Where(predicate).ToArray();
     }
 
     public Task<T[]> GetAsync(Expression<Func<T, bool>> predicate)
     {
-        return set.Where(predicate).ToArrayAsync();
+        return _set.AsNoTracking().Where(predicate).ToArrayAsync();
     }
 
     public T[] Get()
     {
-        return set.ToArray();
+        return _set.AsNoTracking().ToArray();
     }
 
     public Task<T[]> GetAsync()
     {
-        return set.ToArrayAsync();
+        return _set.AsNoTracking().ToArrayAsync();
     }
 
     public Option<T> Get(int id)
     {
-        return set.Find(id);
+        return _set.Find(id);
     }
 
     public async ValueTask<Option<T>> GetAsync(int id)
     {
-        return await set.FindAsync(id);
+        return await _set.FindAsync(id);
     }
 
     public Result<T> Add(T value)
     {
-        return set.Add(value).Entity;
+        var tmp= _set.Add(value);
+        try
+        {
+            _context.SaveChanges();
+            return tmp.Entity;
+        }
+        catch (Exception ex)
+        {
+            tmp.State = EntityState.Detached;
+            return ex;
+        }
     }
 
     public async ValueTask<Result<T>> AddAsync(T value)
     {
-        return (await set.AddAsync(value)).Entity;
+        var tmp= await _set.AddAsync(value);
+        try
+        {
+            await _context.SaveChangesAsync();
+            return tmp.Entity;
+        }
+        catch (Exception ex)
+        {
+            tmp.State = EntityState.Detached;
+            return ex;
+        }
     }
 
     public Result<T> Update(T value)
     {
-        return set.Update(value).Entity;
+        var tmp=_set.Update(value);
+        try
+        {
+            _context.SaveChanges();
+            return tmp.Entity;
+        }
+        catch (Exception ex)
+        {
+            tmp.State = EntityState.Detached;
+            return ex;
+        }
     }
 
     public Result<T> Delete(int id)
     {
         var entity = Get(id);
-        return entity.IsSome ? set.Remove(entity).Entity : new InvalidOperationException();
+        if (!entity.IsSome) return new InvalidOperationException();
+        var tmp=_set.Remove(entity);
+        try
+        {
+            _context.SaveChanges();
+            return tmp.Entity;
+        }
+        catch (Exception ex)
+        {
+            tmp.State = EntityState.Detached;
+            return ex;
+        }
     }
 
     public async ValueTask<Result<T>> DeleteAsync(int id)
     {
         var entity = await GetAsync(id);
-        return entity.IsSome ? set.Remove(entity).Entity : new InvalidOperationException();
+        if (!entity.IsSome) return new InvalidOperationException();
+        var tmp=_set.Remove(entity);
+        try
+        {
+            await _context.SaveChangesAsync();
+            return tmp.Entity;
+        }
+        catch (Exception ex)
+        {
+            tmp.State = EntityState.Detached;
+            return ex;
+        }
     }
 }

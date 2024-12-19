@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulturalEvents.App", "CulturalEvents.App\CulturalEvents.App.csproj", "{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CulturalEvent.GUI.Admin", "CulturalEvent.GUI.Admin\CulturalEvent.GUI.Admin.csproj", "{4A795BDB-302C-483B-BD3E-FD684C043115}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E599EE0C-8657-496C-B8D3-FB3B6AD3005D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A795BDB-302C-483B-BD3E-FD684C043115}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A795BDB-302C-483B-BD3E-FD684C043115}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A795BDB-302C-483B-BD3E-FD684C043115}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A795BDB-302C-483B-BD3E-FD684C043115}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -10,7 +10,8 @@ public class CityConfiguration : IEntityTypeConfiguration<CityAuditableEntity>
     {
         builder.HasKey(city => city.Id);
         builder.Property(city => city.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.HasOne<RegionAuditableEntity>().WithMany().HasForeignKey(city => city.RegionId).IsRequired();
+        builder.HasOne(city => city.Region).WithMany().HasForeignKey(city => city.RegionId).IsRequired();
         builder.Property(city => city.Name).IsRequired();
+        builder.Navigation(city => city.Region).AutoInclude();
     }
 }

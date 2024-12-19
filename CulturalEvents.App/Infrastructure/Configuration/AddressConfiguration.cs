@@ -8,8 +8,10 @@ public class AddressConfiguration : IEntityTypeConfiguration<AddressAuditableEnt
 {
     public void Configure(EntityTypeBuilder<AddressAuditableEntity> builder)
     {
-        builder.HasKey(c => c.Id);
-        builder.Property(c => c.House).IsRequired();
-        builder.HasOne<StreetAuditableEntity>().WithMany().HasForeignKey(c => c.StreetId).IsRequired();
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
+        builder.HasOne(e => e.Street).WithMany().HasForeignKey(e => e.StreetId).IsRequired();
+        builder.Property(e => e.House).IsRequired();
+        builder.Navigation(e => e.Street).AutoInclude();
     }
 }
