@@ -17,4 +17,9 @@ public class CulturalAddressAuditableEntity : BaseAuditableEntity
     [Display(Name ="Адрес"), Editable(true)]
     [ForeignKey(nameof(AddressId))]
     public AddressAuditableEntity Address { get; set; }
+
+    public override string ToString()
+    {
+        return Address.ToString();
+    }
 }

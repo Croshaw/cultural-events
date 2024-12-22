@@ -14,4 +14,9 @@ public class EventDescriptionAuditableEntity : BaseAuditableEntity
     [Display(Name = "Описание"), Editable(true)]
     [Column("description")]
     public required string Description { get; set; }
+
+    public override string ToString()
+    {
+        return Description;
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using CulturalEvents.App.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CulturalEvents.App.Infrastructure.Configuration;
 
@@ -10,7 +11,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<OrderAuditableEntity>
     {
         builder.HasKey(e => e.Id);
         builder.Property(e => e.Id).IsRequired().ValueGeneratedOnAdd();
-        builder.Property(e => e.AddressId).IsRequired();
         builder.HasOne(e => e.Address).WithMany().HasForeignKey(e => e.AddressId).IsRequired();
         builder.Navigation(e => e.Address).AutoInclude();
         builder.Property(e => e.EventId).IsRequired();

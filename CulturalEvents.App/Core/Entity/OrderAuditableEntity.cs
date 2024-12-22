@@ -7,10 +7,10 @@ namespace CulturalEvents.App.Core.Entity;
 public class OrderAuditableEntity : BaseAuditableEntity
 {
     [Column("address_id")]
-    public required int AddressId { get; set; }
+    public int? AddressId { get; set; }
     [Display(Name="Адрес"), Editable(true)]
     [ForeignKey(nameof(AddressId))]
-    public AddressAuditableEntity Address { get; set; }
+    public ClientAddressAuditableEntity Address { get; set; }
     [Column("event_id")]
     public required int EventId { get; set; }
     [Display(Name="Дата"), Editable(true)]
@@ -28,4 +28,9 @@ public class OrderAuditableEntity : BaseAuditableEntity
     [Column("status")]
     [Display(Name="Статус"), Editable(true)]
     public required OrderStatus Status { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Event}";
+    }
 }

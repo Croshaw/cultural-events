@@ -284,7 +284,7 @@ public class TabDbPage<T> : TabPage where T : BaseAuditableEntity
             var tb = CreateOnlyNumberTextBox(name);
             Clear += () => tb.Clear();
             _value.ValueChanged += (value) => tb.Text = value is null ? "" : (propertyInfo.GetValue(value) ?? "").ToString();
-            _properties[propertyInfo] = () => Int32.Parse(tb.Text);
+            _properties[propertyInfo] = () => ConvertToNum(tb.Text, propertyType);
             return tb;
         } 
         if (IsFloatType(propertyType))
@@ -292,7 +292,7 @@ public class TabDbPage<T> : TabPage where T : BaseAuditableEntity
             var tb =CreateOnlyFloatNumberTextBox(name);
             Clear += () => tb.Clear();
             _value.ValueChanged += (value) => tb.Text = value is null ? "" : (propertyInfo.GetValue(value) ?? "").ToString();
-            _properties[propertyInfo] = () => Double.Parse(tb.Text);
+            _properties[propertyInfo] = () => ConvertToNum(tb.Text, propertyType);
             return tb;
         }
 
@@ -308,7 +308,15 @@ public class TabDbPage<T> : TabPage where T : BaseAuditableEntity
                 }
                 else
                 {
-                    dtp.Value = (DateTime)(propertyInfo.GetValue(value) ?? DateTime.Now);
+                    var val = propertyInfo.GetValue(value);
+                    dtp.Value = val switch
+                    {
+                        null => DateTime.Now,
+                        DateOnly date => date.ToDateTime(new TimeOnly()),
+                        TimeOnly time => DateOnly.FromDateTime(DateTime.Today).ToDateTime(time),
+                        DateTime dateTime => dateTime,
+                        _ => dtp.Value
+                    };
                 }
             };
             _properties[propertyInfo] = () =>
@@ -382,6 +390,35 @@ public class TabDbPage<T> : TabPage where T : BaseAuditableEntity
     private static bool IsIntType(Type type)
     {
         return type == typeof(byte) || type == typeof(short) || type == typeof(int) || type== typeof(int?) || type == typeof(long);
+    }
+
+    private static object? ConvertToNum(string text, Type type)
+    {
+        try
+        {
+            // Проверяем, является ли тип nullable
+            Type targetType = Nullable.GetUnderlyingType(type) ?? type;
+
+            // Если текст пустой или null и тип nullable, возвращаем null
+            if (string.IsNullOrWhiteSpace(text) && Nullable.GetUnderlyingType(type) != null)
+            {
+                return null;
+            }
+
+            // Пытаемся выполнить преобразование
+            return Convert.ChangeType(text, targetType);
+        }
+        catch
+        {
+            // Если тип nullable, возвращаем null
+            if (Nullable.GetUnderlyingType(type) != null)
+            {
+                return null;
+            }
+
+            // Если тип не nullable, возвращаем default значение для типа
+            return Activator.CreateInstance(type);
+        }
     }
     private static bool IsFloatType(Type type)
     {

@@ -26,4 +26,9 @@ public class ClientAddressAuditableEntity : BaseAuditableEntity
     [Column("apartment")]
     [Display(Name = "Квартира"), Editable(true)]
     public required int Apartment { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Address} под. {Entrance} эт. {Floor} кв. {Apartment}";
+    }
 }

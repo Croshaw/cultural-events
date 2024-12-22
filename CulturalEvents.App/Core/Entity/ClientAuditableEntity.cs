@@ -14,4 +14,9 @@ public class ClientAuditableEntity : BaseAuditableEntity
     public required string Patronymic { get; set; }
     [Display(Name = "Телефон"), Column("phone"), Editable(true)]
     public required string Phone { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Surname} {Name} {Patronymic}";
+    }
 }

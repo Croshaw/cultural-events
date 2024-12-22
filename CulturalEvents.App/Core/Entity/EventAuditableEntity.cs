@@ -31,4 +31,9 @@ public class EventAuditableEntity: BaseAuditableEntity
     [Column("places")]
     [Display(Name = "Кол-во мест"), Editable(true)]
     public required int Places { get; set; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

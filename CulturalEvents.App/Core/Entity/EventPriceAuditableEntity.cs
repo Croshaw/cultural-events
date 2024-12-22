@@ -19,4 +19,9 @@ public class EventPriceAuditableEntity : BaseAuditableEntity
     [Column("price")]
     [Display(Name = "Цена"), Editable(true)]
     public required decimal Price { get; set; }
+
+    public override string ToString()
+    {
+        return $"{From} {To} {Price}";
+    }
 }

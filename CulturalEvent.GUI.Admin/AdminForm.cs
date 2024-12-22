@@ -2,24 +2,38 @@ using CulturalEvent.GUI.Admin.Controls;
 using CulturalEvents.App.Core.Entity;
 using CulturalEvents.App.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace CulturalEvent.GUI.Admin;
 
-public partial class MainForm : Form
+public class Translator : INpgsqlNameTranslator
+{
+    public string TranslateTypeName(string clrName)
+    {
+        return "order_status";
+    }
+
+    public string TranslateMemberName(string clrName)
+    {
+        return clrName switch
+        {
+            "Delivered" => "Доставлен",
+            "Delivery" => "В Процессе доставки",
+            "Processing" => "Обработка",
+            _ => clrName
+        };
+    }
+}
+
+public partial class AdminForm : Form
 {
     DbContext _context;
-    public MainForm()
+    public AdminForm(string connectionString)
     {
         InitializeComponent();
-        var configuration = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json")
-            .Build();
+        Text = "Админ панель";
         var options =
-            new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(
-                configuration.GetConnectionString("DefaultConnection")).Options;
-        
+            new DbContextOptionsBuilder<AppDbContext>().UseNpgsql(connectionString, o => o.MapEnum<OrderStatus>("order_status", nameTranslator:new Translator() )).Options;
         _context = new AppDbContext(options);
         SetupTabs();
         DoubleBuffered = true;

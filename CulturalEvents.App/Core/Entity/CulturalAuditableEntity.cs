@@ -16,4 +16,9 @@ public class CulturalAuditableEntity : BaseAuditableEntity
     [Column("name")]
     [Display(Name = "Название"), Editable(true)]
     public required string Name { get; set; }
+
+    public override string ToString()
+    {
+        return $"{CulturalType} {Name}";
+    }
 }

@@ -18,4 +18,9 @@ public class AddressAuditableEntity : BaseAuditableEntity
     [Column("addition")]
     [Display(Name = "Строение"), Editable(true)]
     public string? Addition { get; set; }
+
+    public override string ToString()
+    {
+        return $"{Street} д. {House}{(string.IsNullOrEmpty(Addition) ? "" : "/" + Addition)}";
+    }
 }
